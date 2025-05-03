@@ -1,0 +1,705 @@
+/* --- Reset Básico y Variables --- */
+:root {
+    --primary-color: #1DB954; /* Verde Spotify */
+    --dark-color: #121212;
+    --medium-dark-color: #181818;
+    --light-dark-color: #282828;
+    --text-color: #ffffff;
+    --text-muted-color: #b3b3b3;
+    --font-family: 'Poppins', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--dark-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* --- Header --- */
+header {
+    background-color: var(--medium-dark-color);
+    padding: 1rem 2rem;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+header h1 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 0;
+}
+
+header h1 i {
+    margin-right: 0.5rem;
+}
+
+/* --- Main Content --- */
+main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* --- Playlist Loader --- */
+#playlist-loader {
+    background-color: var(--medium-dark-color);
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+#playlist-loader h2 {
+    margin-bottom: 1.5rem;
+}
+
+.input-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Para pantallas pequeñas */
+}
+
+#playlist-url {
+    flex-grow: 1;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--light-dark-color);
+    background-color: var(--light-dark-color);
+    color: var(--text-color);
+    border-radius: 2rem;
+    font-size: 1rem;
+    min-width: 250px; /* Ancho mínimo */
+}
+
+#playlist-url:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* --- Botones --- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background-color: var(--text-muted-color);
+    color: var(--dark-color);
+}
+
+.btn i {
+    margin-right: 0.5rem;
+}
+
+.btn:hover {
+    opacity: 0.85;
+    transform: scale(1.02);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* --- Playlists Display --- */
+#playlists-display h2 {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--light-dark-color);
+    padding-bottom: 0.5rem;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+}
+
+.album-card {
+    background-color: var(--medium-dark-color);
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    overflow: hidden;
+}
+
+.album-card:hover {
+    background-color: var(--light-dark-color);
+}
+
+.album-cover-grid {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 0.8rem;
+}
+
+.album-info h3 {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.album-info p {
+    font-size: 0.85rem;
+    color: var(--text-muted-color);
+    margin-bottom: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --- Reproductor Personalizado Overlay --- */
+.custom-player-overlay {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Ocupa toda la pantalla */
+    background: linear-gradient(to top, rgba(18, 18, 18, 1), rgba(18, 18, 18, 0.95)); /* Gradiente oscuro */
+    backdrop-filter: blur(10px); /* Efecto blur (soporte variable) */
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centra el contenido */
+    padding: 2rem;
+    transform: translateY(100%); /* Empieza oculto abajo */
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición suave */
+    overflow: hidden;
+}
+
+.custom-player-overlay.show {
+    transform: translateY(0); /* Se muestra */
+}
+
+.player-close-btn {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem; /* Cambiado a la izquierda */
+    background: none;
+    border: none;
+    color: var(--text-muted-color);
+    font-size: 1.8rem;
+    cursor: pointer;
+    z-index: 1001;
+    transition: color 0.3s ease;
+}
+
+.player-close-btn:hover {
+    color: var(--text-color);
+}
+
+.player-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 400px; /* Ancho máximo del contenido */
+    width: 100%;
+}
+
+#player-artwork {
+    width: 280px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.track-info {
+    margin-bottom: 1.5rem;
+}
+
+#player-track-title {
+    font-size: 1.6rem;
+    margin-bottom: 0.3rem;
+}
+
+#player-track-artist {
+    font-size: 1rem;
+    color: var(--text-muted-color);
+}
+
+/* --- Barra de Progreso --- */
+.progress-section {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.progress-bar {
+    background-color: #404040;
+    border-radius: 5px;
+    height: 6px;
+    width: 100%;
+    cursor: pointer; /* Para futura funcionalidad de seek */
+    overflow: hidden; /* Asegura que el progreso no se salga */
+}
+
+.progress {
+    background-color: var(--primary-color);
+    height: 100%;
+    width: 0%; /* Empieza en 0 */
+    border-radius: 5px;
+    transition: width 0.1s linear; /* Transición suave del progreso */
+}
+
+.time-display {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-muted-color);
+    margin-top: 0.5rem;
+}
+
+/* --- Controles del Reproductor --- */
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted-color);
+    font-size: 1.5rem; /* Iconos más pequeños */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0.5rem;
+}
+
+.control-btn:hover {
+    color: var(--text-color);
+    transform: scale(1.1);
+}
+
+.play-btn {
+    background-color: var(--text-color);
+    color: var(--dark-color);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 1.8rem; /* Icono play/pause más grande */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.play-btn:hover {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    transform: scale(1.05);
+}
+
+/* --- Notificaciones (Opcional, si las necesitas) --- */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--light-dark-color);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.5s ease, bottom 0.5s ease;
+    font-size: 0.9rem;
+}
+
+.notification.show {
+    opacity: 1;
+    bottom: 40px;
+}
+
+.notification.error {
+    background-color: #d9534f; /* Rojo para errores */
+}
+
+.notification.success {
+    background-color: var(--primary-color); /* Verde para éxito */
+}
+
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+
+    #player-artwork {
+        width: 220px;
+        height: 220px;
+    }
+
+    #player-track-title {
+        font-size: 1.4rem;
+    }
+
+    .controls {
+        gap: 1.5rem;
+    }
+
+    .play-btn {
+        width: 55px;
+        height: 55px;
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+     main {
+        padding: 1rem;
+    }
+    #playlist-loader {
+        padding: 1.5rem;
+    }
+     .input-group {
+        flex-direction: column;
+    }
+    #playlist-url {
+        width: 100%;
+    }
+    #load-playlist-btn {
+        width: 100%;
+    }
+     .grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    .custom-player-overlay {
+        padding: 1rem;
+        justify-content: space-around; /* Más espacio vertical */
+    }
+     #player-artwork {
+        width: 180px;
+        height: 180px;
+        margin-bottom: 1rem;
+    }
+     #player-track-title {
+        font-size: 1.2rem;
+    }
+     #player-track-artist {
+        font-size: 0.9rem;
+    }
+    .progress-section {
+        margin-bottom: 1rem;
+    }
+    .controls {
+        gap: 1rem;
+    }
+    .control-btn {
+        font-size: 1.3rem;
+    }
+    .play-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+}
+.playlist-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Un poco más oscuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s; /* Transición suave */
+}
+
+.playlist-modal.show {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+}
+
+/* Reutilizamos .modal-content y otros estilos si son iguales */
+/* Si no, puedes definirlos específicamente: */
+.playlist-modal .modal-content {
+    background-color: #1e1e1e; /* Fondo ligeramente diferente si quieres */
+    color: #fff;
+    padding: 25px 30px;
+    border-radius: 10px;
+    max-width: 650px;
+    width: 90%;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.playlist-modal.show .modal-content {
+     transform: scale(1);
+}
+
+/* Reutilizar .close-modal-button o definir .playlist-modal .close-modal-button */
+.playlist-modal .close-modal-button {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 2rem; /* Más grande */
+    cursor: pointer;
+    line-height: 1;
+    padding: 5px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 10; /* Encima del contenido */
+}
+.playlist-modal .close-modal-button:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+.modal-playlist-header { /* Clase específica si es necesario */
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #444;
+}
+
+.modal-playlist-cover { /* Clase específica si es necesario */
+    width: 100px; /* Ajusta tamaño si quieres */
+    height: 100px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-right: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    flex-shrink: 0;
+}
+
+.modal-playlist-info h2 { /* Clase específica si es necesario */
+    margin: 0 0 5px 0;
+    font-size: 1.6em; /* Ajusta tamaño */
+    font-weight: 600;
+}
+
+.modal-playlist-info p { /* Clase específica si es necesario */
+    margin: 0;
+    color: #b3b3b3;
+    font-size: 1em; /* Ajusta tamaño */
+}
+
+.modal-tracks-list { /* Clase específica si es necesario */
+    overflow-y: auto;
+    flex-grow: 1;
+    /* Estilo para la barra de scroll (opcional, webkit) */
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    &::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+    }
+     &::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+}
+
+.modal-track-item { /* Clase específica si es necesario */
+    display: flex;
+    align-items: center;
+    padding: 10px 5px;
+    border-bottom: 1px solid #333; /* Línea divisoria más sutil */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    position: relative; /* Para posicionar el botón play */
+}
+.modal-track-item:last-child {
+    border-bottom: none;
+}
+
+.modal-track-item:not(.unavailable):hover { /* No resaltar si no está disponible */
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+}
+
+.modal-track-item .track-number { /* Clase específica si es necesario */
+    color: #b3b3b3;
+    width: 30px;
+    text-align: right;
+    margin-right: 15px;
+    font-size: 0.9em;
+}
+
+.modal-track-item .track-title { /* Clase específica si es necesario */
+    flex-grow: 1;
+    margin-right: 15px;
+    /* Evitar desbordamiento */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Estilo para pistas no disponibles */
+.modal-track-item.unavailable {
+    opacity: 0.5;
+    cursor: not-allowed;
+    color: #888;
+}
+.modal-track-item.unavailable .track-title {
+     text-decoration: line-through;
+}
+.unavailable-tag {
+    font-size: 0.8em;
+    color: #aaa;
+    margin-left: auto; /* Empujar a la derecha */
+    padding-right: 10px;
+}
+
+
+/* Botón Play dentro del item (reutilizar si es posible) */
+.modal-track-item .play-track-button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    margin-left: auto; /* Empujar a la derecha */
+    opacity: 0; /* Oculto por defecto */
+    transform: scale(0.8);
+}
+
+.modal-track-item:hover .play-track-button {
+    opacity: 1; /* Mostrar al hacer hover en el item */
+    transform: scale(1);
+}
+.modal-track-item .play-track-button:hover {
+     background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* --- Estilos Mini-Reproductor --- */
+.mini-player {
+    position: fixed;
+    bottom: -100px; /* Inicialmente oculto abajo */
+    left: 0;
+    width: 100%;
+    background-color: #282828; /* Un color oscuro, similar a Spotify/YT Music */
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 998; /* Debajo de la modal, pero encima del contenido normal */
+    transition: bottom 0.3s ease-in-out; /* Animación suave para mostrar/ocultar */
+    cursor: pointer; /* Indica que se puede hacer clic para expandir */
+}
+
+.mini-player.visible {
+    bottom: 0; /* Lo hace visible */
+}
+
+#mini-player-artwork {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.mini-player-info {
+    flex-grow: 1; /* Ocupa el espacio restante */
+    overflow: hidden; /* Evita que el texto largo se desborde */
+    white-space: nowrap;
+    margin-right: 10px;
+}
+
+#mini-player-title {
+    display: block;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+#mini-player-artist {
+    display: block;
+    font-size: 0.8em;
+    color: #b3b3b3; /* Un gris claro */
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.mini-control {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2em; /* Tamaño de los iconos */
+    padding: 5px;
+    cursor: pointer; /* Asegura que los botones sean clickables */
+    margin-left: 5px;
+}
+
+.mini-control:hover {
+    color: #1db954; /* Un color de acento al pasar el ratón */
+}
+
+/* Asegúrate de que el contenido principal tenga padding inferior
+   para no quedar oculto por el mini-reproductor cuando esté visible */
+main {
+    padding-bottom: 70px; /* Ajusta este valor según la altura de tu mini-reproductor + un margen */
+}

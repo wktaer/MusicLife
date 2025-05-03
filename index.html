@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicLife - Tu Música</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts (Opcional) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <h1><i class="fas fa-headphones-alt"></i> MusicLife</h1>
+    </header>
+
+    <main>
+        <!-- Sección para cargar playlists -->
+        <section id="playlist-loader">
+            <h2>Carga tu Playlist de YouTube</h2>
+            <div class="input-group">
+                <input type="text" id="playlist-url" placeholder="Pega aquí la URL de la playlist de YouTube">
+                <button id="load-playlist-btn" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Cargar
+                </button>
+            </div>
+        </section>
+
+        <!-- Contenedor para mostrar las playlists cargadas -->
+        <section id="playlists-display">
+            <h2>Mis Playlists</h2>
+            <div id="album-container" class="grid-container">
+                <!-- Las playlists cargadas se añadirán aquí -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Reproductor Personalizado (Inicialmente oculto) -->
+    <div id="custom-player" class="custom-player-overlay">
+        <button id="close-player-btn" class="player-close-btn"><i class="fas fa-chevron-down"></i></button>
+        <div class="player-content">
+            <img id="player-artwork" src="img/default-cover.png" alt="Portada del Álbum">
+            <div class="track-info">
+                <h3 id="player-track-title">Título de la Canción</h3>
+                <p id="player-track-artist">Artista</p>
+            </div>
+            <div class="progress-section">
+                <div id="player-progress-bar" class="progress-bar">
+                    <div id="player-progress" class="progress"></div>
+                </div>
+                <div class="time-display">
+                    <span id="player-current-time">0:00</span>
+                    <span id="player-duration">0:00</span>
+                </div>
+            </div>
+            <div class="controls">
+                <button id="prev-btn" class="control-btn"><i class="fas fa-step-backward"></i></button>
+                <button id="play-pause-btn" class="control-btn play-btn"><i class="fas fa-play"></i></button>
+                <button id="next-btn" class="control-btn"><i class="fas fa-step-forward"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reproductor oculto de YouTube API -->
+    <div id="youtubePlayer"></div>
+
+    <!-- Mini Reproductor (Inicialmente oculto) -->
+    <div id="mini-player" class="mini-player">
+        <img id="mini-player-artwork" src="img/default-cover.png" alt="Mini portada">
+        <div class="mini-player-info">
+            <span id="mini-player-title">Título</span>
+            <span id="mini-player-artist">Artista</span>
+        </div>
+        <button id="mini-player-play-pause" class="control-btn mini-control"><i class="fas fa-play"></i></button>
+        <!-- Podrías añadir un botón de cerrar si quieres ocultarlo completamente -->
+        <!-- <button id="mini-player-close" class="control-btn mini-control"><i class="fas fa-times"></i></button> -->
+    </div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
